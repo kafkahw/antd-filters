@@ -1,0 +1,42 @@
+:local {
+  .filter {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+  }
+
+  .icon-delete {
+    margin-left: 5px;
+    cursor: pointer;
+  }
+
+  .btn-add-filter {
+    width: 110px;
+    margin-top: 10px;
+    color: white !important;
+    background-color: lighten(@layout-header-background, 25%) !important;
+  }
+
+  .filter-holder {
+    width: 185px;
+    padding: 5px 10px;
+    height: auto;
+    background-color: lighten(#d3d3d3, 10%);
+
+    .text {
+      white-space: normal !important;
+      // The following is a hack for multiple line ellipsis
+      // See more at https://codepen.io/martinwolf/pen/qlFdp
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 3;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  .filter-holder-dropdown {
+    max-width: 300px;
+  }
+}

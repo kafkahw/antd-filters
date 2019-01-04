@@ -1,0 +1,16 @@
+{
+  "name": "antd-filters",
+  "version": "0.1.0",
+  "description": "A UI widget for adding filters based on Ant-Design",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "antd",
+    "filters",
+    "react"
+  ],
+  "author": "Wei Hou",
+  "license": "ISC"
+}
