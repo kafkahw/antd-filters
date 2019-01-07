@@ -1,14 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames/bind';
-import track from 'react-tracking';
 
-import styles from './FilterList.less';
 import AddFilter from './AddFilter';
 
-const cx = classNames.bind(styles);
-
-@track()
 class FilterList extends React.PureComponent {
   constructor(props) {
     super(props);
@@ -26,21 +20,12 @@ class FilterList extends React.PureComponent {
     {},
   );
 
-  @track((props, state, [filterTopic, value]) => ({
-    event: 'segment::filters::update',
-    filterTopic,
-    value,
-  }))
   updateFilter(topic, value) {
     this.filters[topic] = value && { ...value, key: topic };
 
     this.submitFilters();
   }
 
-  @track((props, state, [filterTopic]) => ({
-    event: 'segment::filters::delete',
-    filterTopic,
-  }))
   handleDelete(topic) {
     // Removes topic from filters and adds it into unselectedFilters
     this.setState(prevState => ({
@@ -52,10 +37,6 @@ class FilterList extends React.PureComponent {
     this.submitFilters();
   }
 
-  @track((props, state, [filterTopic]) => ({
-    event: 'segment::filters::add',
-    filterTopic,
-  }))
   handleSelect(topic) {
     // Adds selected topic to filters and removes it from unselectedFilters
     this.setState(prevState => ({
@@ -74,7 +55,7 @@ class FilterList extends React.PureComponent {
     const unselectedFilters = Object.keys(topics).filter(topic => !filters.includes(topic));
 
     return (
-      <div className={cx('filterlist')}>
+      <div className="filterlist">
         {filters.map((filter) => {
           const topic = topics[filter];
           const defaultFilter = this.filters[filter];

@@ -127,6 +127,8 @@ testem.log
 /coverage
 
 # production
+/es
+/lib
 /build
 /dist
 

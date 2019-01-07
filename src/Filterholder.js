@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Popover, Button, Icon, Tooltip } from 'antd';
-import classNames from 'classnames/bind';
-
-import styles from './Filter.less';
-
-const cx = classNames.bind(styles);
+import {
+  Popover,
+  Button,
+  Icon,
+  Tooltip,
+} from 'antd';
 
 
 const Filterholder = ({
@@ -18,7 +18,7 @@ const Filterholder = ({
   description,
 }) => (
   <Popover
-    className={cx('filter')}
+    className="filter"
     content={children}
     trigger="click"
     placement="bottomLeft"
@@ -27,15 +27,15 @@ const Filterholder = ({
   >
     <Button
       type={hasError ? 'danger' : 'default'}
-      className={cx('filter-holder')}
+      className="filter-holder"
     >
       <Tooltip title={description} placement="topLeft">
-        <div className={cx('text')}>{text}</div>
+        <div className="text">{text}</div>
       </Tooltip>
     </Button>
     <Tooltip title="Delete this filter">
       <Icon
-        className={cx('icon-delete')}
+        className="delete-filter"
         type="close-circle"
         theme="filled"
         onClick={onDelete}

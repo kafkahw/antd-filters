@@ -1,13 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Popover, Button, Icon, Select, Tooltip } from 'antd';
-import classNames from 'classnames/bind';
-
-import styles from './Filter.less';
+import {
+  Popover,
+  Button,
+  Icon,
+  Select,
+  Tooltip,
+} from 'antd';
 
 const { Option } = Select;
-
-const cx = classNames.bind(styles);
 
 
 const AddFilter = ({ onSelect, filters, topics }) => {
@@ -15,7 +16,7 @@ const AddFilter = ({ onSelect, filters, topics }) => {
 
   return (
     <Popover
-      content={
+      content={(
         <Select
           style={{ minWidth: '190px' }}
           value="Select a filter"
@@ -36,12 +37,13 @@ const AddFilter = ({ onSelect, filters, topics }) => {
             );
           })}
         </Select>
-      }
+      )}
       trigger="click"
       placement="bottomLeft"
     >
-      <Button className={cx('btn-add-filter')}>
-        <Icon type="plus" /> Add filter
+      <Button className="btn-add-filter">
+        <Icon type="plus" />
+        Add filter
       </Button>
     </Popover>
   );

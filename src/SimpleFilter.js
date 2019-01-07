@@ -1,12 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Icon, Tooltip } from 'antd';
-import classNames from 'classnames/bind';
 
-import styles from './Filter.less';
-
-
-const cx = classNames.bind(styles);
 
 class SimpleFilter extends Component {
   componentDidMount() {
@@ -28,13 +23,13 @@ class SimpleFilter extends Component {
     const { text, display } = this.props.topic;
 
     return (
-      <span className={cx('filter')}>
-        <Button className={cx('filter-holder')}>
-          <div className={cx('text')}>{display ? display() : text}</div>
+      <span className="filter">
+        <Button className="filter-holder">
+          <div className="text">{display ? display() : text}</div>
         </Button>
         <Tooltip title="Delete this filter">
           <Icon
-            className={cx('icon-delete')}
+            className="delete-filter"
             type="close-circle"
             theme="filled"
             onClick={this.handleDelete}

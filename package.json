@@ -2,9 +2,30 @@
   "name": "antd-filters",
   "version": "0.1.0",
   "description": "A UI widget for adding filters based on Ant-Design",
-  "main": "index.js",
+  "main": "./lib/index.js",
+  "module": "./es/index",
+  "files": [
+    "dist",
+    "es",
+    "lib"
+  ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rc-tools run build",
+    "compile": "rc-tools run compile --babel-runtime",
+    "gh-pages": "rc-tools run gh-pages",
+    "start": "rc-tools run server",
+    "pub": "rc-tools run update-self && rc-tools run pub",
+    "lint": "rc-tools run lint",
+    "prepublish": "rc-tools run guard"
+  },
+  "config": {
+    "entry": {
+      "antd-filters": [
+        "./src/index.js"
+      ]
+    },
+    "port": 8080
   },
   "keywords": [
     "antd",
@@ -12,5 +33,20 @@
     "react"
   ],
   "author": "Wei Hou",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "antd": "3.12.1",
+    "rc-tools": "^9.3.3",
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0"
+  },
+  "peerDependencies": {
+    "antd": ">=3.8.0",
+    "react": ">=16.7.0",
+    "react-dom": ">=16.7.0"
+  },
+  "dependencies": {
+    "classnames": "^2.2.6",
+    "prop-types": "^15.6.2"
+  }
 }

@@ -1,12 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Radio, Divider, InputNumber } from 'antd';
-import classNames from 'classnames/bind';
 
-import styles from './Filter.less';
 import Filterholder from './Filterholder';
-
-const cx = classNames.bind(styles);
 
 const RadioGroup = Radio.Group;
 
@@ -101,7 +97,8 @@ class NumCompareFilter extends Component {
           value={value}
           onChange={this.handleValChange}
         />
-        &nbsp;{this.props.topic.unit || ''}
+        &nbsp;
+        {topic.unit || ''}
       </div>
     );
 
@@ -115,7 +112,7 @@ class NumCompareFilter extends Component {
         onDelete={this.handleDelete}
       >
         <RadioGroup
-          className={cx('filter-holder-dropdown')}
+          className="filter-holder-dropdown"
           value={operator}
           onChange={this.handleOpChange}
         >
