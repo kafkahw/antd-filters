@@ -278,6 +278,7 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
   ExistsFilter,
   SingleSelectFilter,
   MultipleSelectFilter,
+  RelativeTimeFilter,
 } <span class="hljs-keyword">from</span> <span class="hljs-string">'../src'</span>;
 
 <span class="hljs-keyword">const</span> topics = {
@@ -308,6 +309,14 @@ Monokai Sublime style. Derived from Monokai by noformnocontent http://nn.mit-lic
     field: <span class="hljs-string">'contacts'</span>,
     element: MultipleSelectFilter,
     description: <span class="hljs-string">'The patient\'s emergency contacts'</span>,
+  },
+  admitAt: {
+    key: <span class="hljs-string">'admitAt'</span>,
+    text: <span class="hljs-string">'Admission Date'</span>,
+    field: <span class="hljs-string">'admitAt'</span>,
+    unit: <span class="hljs-string">'days ago'</span>,
+    element: RelativeTimeFilter,
+    description: <span class="hljs-string">'When the patient was admitted'</span>,
   },
 };
 
