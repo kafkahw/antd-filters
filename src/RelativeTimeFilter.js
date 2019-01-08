@@ -1,17 +1,20 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Radio, Divider, Select } from 'antd';
+import { Radio, Divider, InputNumber } from 'antd';
 
 import Filterholder from './Filterholder';
 
 const RadioGroup = Radio.Group;
 
-const { Option } = Select;
+const operators = ['more than', 'less than', 'exists', 'not exists'];
 
+function isExtendedOp(operator) {
+  return !['exists', 'not exists'].includes(operator);
+}
 
-class SelectFilter extends Component {
+class RelativeTimeFilter extends Component {
   state = {
-    isMenuOpen: this.props.defaultValue.length < 1,
+    isMenuOpen: this.props.defaultValue === null && isExtendedOp(this.props.defaultOperator),
     operator: this.props.defaultOperator,
     value: this.props.defaultValue,
     error: false,
@@ -22,18 +25,18 @@ class SelectFilter extends Component {
   };
 
   handleValChange = (value) => {
-    const newValue = this.props.mode === 'multiple' ? value : [value];
-    this.setState({ value: newValue });
+    this.setState({ value: (Number.isNaN(value) || typeof value === 'string') ? null : value });
   };
 
   validate = () => {
     const { value, operator } = this.state;
     const { setTopic, topic } = this.props;
 
-    // If value is an empty array, set error to true
+    // If the operator has extended input and
+    // no value, set error to true
     // and update topic to be null;
     // Otherwise, update topic with current state
-    if (value.length < 1) {
+    if (isExtendedOp(operator) && !value && value !== 0) {
       this.setState({ error: true });
       setTopic(topic.key, null);
     } else {
@@ -59,9 +62,9 @@ class SelectFilter extends Component {
     this.props.onDelete(this.props.topic.key);
   };
 
-  display() {
+  display = () => {
     const { operator, value, error } = this.state;
-    const { topic, options } = this.props;
+    const { topic } = this.props;
 
     if (error) {
       return `${topic.text} is missing value`;
@@ -71,47 +74,54 @@ class SelectFilter extends Component {
       return topic.display(operator, value);
     }
 
-    if (value.length > 0) {
-      const labels = value.map((val) => {
-        const option = options.find(op => op.value === val);
-        return option ? option.label : val;
-      }).join(', ');
+    return `${topic.text} ${operator} ${value}`;
+  };
 
-      return `${topic.text} ${operator} ${labels}`;
+  displayOp = (operator) => {
+    const { existsOptionDisplay, notExistsOptionDisplay } = this.props.topic;
+
+    if (operator === 'exists' && existsOptionDisplay) {
+      return existsOptionDisplay;
     }
 
-    return `${topic.text} ${operator} ...`;
-  }
+    if (operator === 'not exists' && notExistsOptionDisplay) {
+      return notExistsOptionDisplay;
+    }
+
+    return operator;
+  };
 
   render() {
     const {
       isMenuOpen, operator, value, error,
     } = this.state;
-    const { topic, options } = this.props;
-    const select = (
-      <div style={{ margin: '5px 0 10px' }}>
-        <Select
+    const { topic } = this.props;
+
+    const numberInput = (
+      <div style={{ margin: '5px 0 5px 20px' }}>
+        <InputNumber
           autoFocus
-          style={{ width: '100%', minWidth: '150px' }}
-          mode={this.props.mode}
-          optionFilterProp="children"
-          value={this.props.mode === 'multiple' ? value : value[0]}
+          min={0}
+          value={value}
           onChange={this.handleValChange}
-          getPopupContainer={trigger => trigger.parentNode}
-        >
-          {options.map(option => (
-            <Option key={option.value}>{option.label}</Option>
-          ))}
-        </Select>
+        />
+        &nbsp;
+        {topic.unit || ''}
       </div>
     );
+
+    const ops = operators.map(op => ({
+      op,
+      showExtended: operator === op && isExtendedOp(op),
+      opDisplay: this.displayOp(op),
+    }));
 
     return (
       <Filterholder
         isMenuOpen={isMenuOpen}
         hasError={error}
-        description={topic.description}
         text={this.display()}
+        description={topic.description}
         onMenuVisibleChange={this.handleMenuVisibleChange}
         onDelete={this.handleDelete}
       >
@@ -120,10 +130,10 @@ class SelectFilter extends Component {
           value={operator}
           onChange={this.handleOpChange}
         >
-          {this.props.operators.map(op => (
+          {ops.map(({ op, opDisplay, showExtended }) => (
             <div key={op} style={{ marginBottom: '5px' }}>
-              <Radio value={op}>{op}</Radio>
-              {operator === op && select}
+              <Radio value={op}>{opDisplay}</Radio>
+              {showExtended && numberInput}
             </div>
           ))}
           <Divider />
@@ -143,33 +153,28 @@ class SelectFilter extends Component {
   }
 }
 
-SelectFilter.propTypes = {
+RelativeTimeFilter.propTypes = {
   topic: PropTypes.shape({
     key: PropTypes.string.isRequired,
     text: PropTypes.string.isRequired,
     field: PropTypes.string.isRequired,
+    unit: PropTypes.string,
     display: PropTypes.func,
+    description: PropTypes.string,
+    notExistsOptionDisplay: PropTypes.string,
+    existsOptionDisplay: PropTypes.string,
   }).isRequired,
   defaultOperator: PropTypes.string,
-  defaultValue: PropTypes.array,
-  options: PropTypes.arrayOf(PropTypes.shape({
-    label: PropTypes.string.isRequired,
-    value: PropTypes.string.isRequired,
-  })),
-  operators: PropTypes.arrayOf(PropTypes.string),
+  defaultValue: PropTypes.number,
   onDelete: PropTypes.func,
   setTopic: PropTypes.func,
-  mode: PropTypes.string,
 };
 
-SelectFilter.defaultProps = {
-  defaultOperator: 'are',
-  defaultValue: [],
-  options: [],
-  operators: ['are', 'are not'],
+RelativeTimeFilter.defaultProps = {
+  defaultOperator: 'more than',
+  defaultValue: null,
   onDelete: () => {},
   setTopic: () => {},
-  mode: 'multiple',
 };
 
-export default SelectFilter;
+export default RelativeTimeFilter;
