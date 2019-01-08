@@ -7,6 +7,7 @@ import FilterList, {
   ExistsFilter,
   SingleSelectFilter,
   MultipleSelectFilter,
+  RelativeTimeFilter,
 } from '../src';
 
 const topics = {
@@ -37,6 +38,14 @@ const topics = {
     field: 'contacts',
     element: MultipleSelectFilter,
     description: 'The patient\'s emergency contacts',
+  },
+  admitAt: {
+    key: 'admitAt',
+    text: 'Admission Date',
+    field: 'admitAt',
+    unit: 'days ago',
+    element: RelativeTimeFilter,
+    description: 'When the patient was admitted',
   },
 };
 

@@ -74,7 +74,15 @@ class RelativeTimeFilter extends Component {
       return topic.display(operator, value);
     }
 
-    return `${topic.text} ${operator} ${value}`;
+    if (['exists', 'not exists'].includes(operator)) {
+      return `${topic.text} ${operator}`;
+    }
+
+    if (value || value === 0) {
+      return `${topic.text} ${operator} ${value} ${topic.unit}`;
+    }
+
+    return `${topic.text} ${operator} ...`;
   };
 
   displayOp = (operator) => {
